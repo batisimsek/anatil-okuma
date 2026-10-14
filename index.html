@@ -72,12 +72,30 @@ const pool=()=>WORDS.filter(permitted);
 const save=()=>{localStorage.setItem('anatil-letters',JSON.stringify(enabled));localStorage.setItem('anatil-progress',JSON.stringify(progress));localStorage.setItem('anatil-reveal',JSON.stringify(allowReveal));};
 const setStatus=t=>$('#feedback').textContent=t;
 function speak(word){const s=$('#audioStatus');if(!('speechSynthesis'in window)){s.textContent='Bu tarayıcı seslendirmeyi desteklemiyor. Yetişkin kelimeyi okuyabilir.';return}const v=speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith('tr'));if(!v){s.textContent='Türkçe ses bulunamadı. Türkçe ses paketi yüklenmesi gerekebilir.';return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(word.toLocaleLowerCase('tr-TR'));u.lang='tr-TR';u.voice=v;u.rate=.77;speechSynthesis.speak(u);s.textContent='';}
-function newQuestion(){const list=pool();target=list.length?list[Math.floor(Math.random()*list.length)]:'';answer=Array(target.length).fill(null);tiles=[...target].map((c,i)=>({c,i,used:false})).sort(()=>Math.random()-.5);attempted=false;checked=false;questionStarted=!!target;setStatus(target?'':'Seçilen seslerle uygun kelime yok. Ebeveyn panelinden başka ses aç.');render();}
-function render(){const area=$('#slots');area.replaceChildren();answer.forEach((id,i)=>{const b=document.createElement('button');b.className='slot';b.dataset.index=i;b.textContent=id===null?'':tiles.find(t=>t.i===id)?.c||'';if(id!==null)b.style.color=color(b.textContent);b.onclick=()=>{if(answer[i]!==null){answer[i]=null;render();}};area.append(b);});
-const tray=$('#tiles');tray.replaceChildren();tiles.forEach(t=>{if(t.used)return;const b=document.createElement('button');b.className='tile';b.textContent=t.c;b.style.background=color(t.c);b.dataset.id=t.i;b.setAttribute('aria-label',t.c+' harfi');b.onpointerdown=e=>{if(e.pointerType==='mouse')return;selectedTile=t.i;drag={x:e.clientX,y:e.clientY};b.setPointerCapture(e.pointerId);};b.onpointerup=e=>{if(!drag)return;const dropped=document.elementFromPoint(e.clientX,e.clientY)?.closest('.slot');if(dropped){put(t.i,Number(dropped.dataset.index))}else if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<25){put(t.i)}drag=null;selectedTile=null;};b.onclick=e=>{if(e.detail&&e.pointerType!=='touch'&&e.pointerType!=='pen')put(t.i)};tray.append(b);});
-$('#stats').textContent='⭐ '+progress.right+'  •  Deneme '+progress.played;$('#listen').disabled=!target;$('#check').disabled=!target;}
-function put(id,position){let p=position??answer.indexOf(null);if(p<0||p>=answer.length)return;if(answer[p]!==null){const prev=tiles.find(t=>t.i===answer[p]);if(prev)prev.used=false;}answer[p]=id;tiles.find(t=>t.i===id).used=true;setStatus('');render();}
-$('#undo').onclick=()=>{for(let i=answer.length-1;i>=0;i--)if(answer[i]!==null){tiles.find(t=>t.i===answer[i]).used=false;answer[i]=null;render();break}};
+// Bir turdaki bütün kelimeler bitmeden aynı kelimeyi tekrar sorma.
+function nextWord(){
+ const list=pool(),signature=[...enabled].sort().join('');
+ if(!list.length)return '';
+ let cycle=load('anatil-word-cycle',{signature:'',remaining:[],recent:[]});
+ if(cycle.signature!==signature)cycle={signature,remaining:[],recent:[]};
+ cycle.remaining=cycle.remaining.filter(w=>list.includes(w));
+ // Yeni bir tur başlatıldığında son 3 kelimeyi mümkün olduğunca sona bırak.
+ if(!cycle.remaining.length){
+  const recent=new Set(cycle.recent||[]);
+  const shuffled=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  cycle.remaining=[...shuffled(list.filter(w=>!recent.has(w))),...shuffled(list.filter(w=>recent.has(w)))];
+ }
+ const word=cycle.remaining.shift();
+ cycle.recent=[...(cycle.recent||[]),word].slice(-3);
+ localStorage.setItem('anatil-word-cycle',JSON.stringify(cycle));
+ return word;
+}
+function newQuestion(){target=nextWord();answer=Array(target.length).fill(null);tiles=[...target].map((c,i)=>({c,i,used:false})).sort(()=>Math.random()-.5);attempted=false;checked=false;questionStarted=!!target;setStatus(target?'':'Seçilen seslerle uygun kelime yok. Ebeveyn panelinden başka ses aç.');render();}
+function render(){const area=$('#slots');area.replaceChildren();answer.forEach((id,i)=>{const b=document.createElement('button');b.className='slot';b.dataset.index=i;b.textContent=id===null?'':tiles.find(t=>t.i===id)?.c||'';if(id!==null)b.style.color=color(b.textContent);b.onclick=()=>{if(checked)return;if(answer[i]!==null){const tile=tiles.find(t=>t.i===answer[i]);if(tile)tile.used=false;answer[i]=null;setStatus('');render();}};b.disabled=checked;area.append(b);});
+const tray=$('#tiles');tray.replaceChildren();tiles.forEach(t=>{if(t.used)return;const b=document.createElement('button');b.className='tile';b.textContent=t.c;b.style.background=color(t.c);b.dataset.id=t.i;b.setAttribute('aria-label',t.c+' harfi');b.onpointerdown=e=>{if(checked||e.pointerType==='mouse')return;selectedTile=t.i;drag={x:e.clientX,y:e.clientY};b.setPointerCapture(e.pointerId);};b.onpointerup=e=>{if(checked||!drag)return;const dropped=document.elementFromPoint(e.clientX,e.clientY)?.closest('.slot');if(dropped){put(t.i,Number(dropped.dataset.index))}else if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<25){put(t.i)}drag=null;selectedTile=null;};b.onclick=e=>{if(e.detail&&e.pointerType!=='touch'&&e.pointerType!=='pen')put(t.i)};tray.append(b);});
+$('#stats').textContent='⭐ '+progress.right+'  •  Deneme '+progress.played;$('#listen').disabled=!target;$('#check').disabled=!target||checked;$('#undo').disabled=!target||checked;}
+function put(id,position){if(checked)return;let p=position??answer.indexOf(null);if(p<0||p>=answer.length)return;if(answer[p]!==null){const prev=tiles.find(t=>t.i===answer[p]);if(prev)prev.used=false;}answer[p]=id;tiles.find(t=>t.i===id).used=true;setStatus('');render();}
+$('#undo').onclick=()=>{if(checked)return;for(let i=answer.length-1;i>=0;i--)if(answer[i]!==null){tiles.find(t=>t.i===answer[i]).used=false;answer[i]=null;render();break}};
 $('#listen').onclick=()=>speak(target);
 $('#hint').onclick=()=>{if(target)setStatus('İlk harf: '+target[0]);};
 $('#check').onclick=()=>{if(!target)return;if(answer.includes(null)){setStatus('Önce bütün kutuları doldur.');return}const guess=answer.map(id=>tiles.find(t=>t.i===id).c).join('');if(!attempted)progress.played++;if(guess===target){if(!checked){progress.right++;if(!attempted)progress.first++;feedbackSound(true);}checked=true;setStatus('🎉 Harika! Doğru bildin!');}else{progress.wrong++;attempted=true;feedbackSound(false);setStatus('🔔 Olmadı, bir daha deneyelim!');}save();render();};
