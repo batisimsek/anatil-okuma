@@ -46,25 +46,13 @@
 <div id="readingCard" class="readingCard" aria-live="polite"></div>
 <p id="readingFeedback" class="muted" aria-live="polite"></p>
 <div class="actions"><button id="readListen">🔊 Sesini Dinle</button><button id="readDone" class="primary">⭐ Okudum!</button><button id="readNext">➡ Sonraki</button></div>
-</section><section id="parents" class="hidden"><h2>Ebeveyn paneli</h2><p>Çocuğun öğrendiği sesleri seç. Başlangıç: A, N, E, T.</p><div id="letters"></div><label><input id="allowReveal" type="checkbox"> Cevabı göster düğmesine izin ver</label><div class="actions" style="margin-top:14px"><button id="reveal" class="hidden">Cevabı göster</button><button id="export">📤 İstatistikleri indir</button><button id="close" class="primary">Oyuna dön</button></div><p id="progress" class="muted"></p><p class="small muted">Veriler yalnızca bu tarayıcıda saklanır. PIN ve ses kayıtları sonraki sürümde eklenecek.</p></section>
+</section><section id="parents" class="hidden"><h2>Ebeveyn paneli</h2><p>Çocuğun öğrendiği sesleri seç. Başlangıç: A, N, E, T.</p><div id="letters"></div><p id="availableInfo" class="muted"></p><button id="resetExercises">🔄 Çalışmaları yeniden başlat</button><label><input id="allowReveal" type="checkbox"> Cevabı göster düğmesine izin ver</label><div class="actions" style="margin-top:14px"><button id="reveal" class="hidden">Cevabı göster</button><button id="export">📤 İstatistikleri indir</button><button id="close" class="primary">Oyuna dön</button></div><p id="progress" class="muted"></p><p class="small muted">Veriler yalnızca bu tarayıcıda saklanır. PIN ve ses kayıtları sonraki sürümde eklenecek.</p></section>
 <footer class="muted small" style="padding:20px;text-align:center">Güneş Paneli • Okuma yolculuğum</footer></main>
 <script>
 (()=>{'use strict';
 const ALPHABET=[...'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ']; // Türk alfabesi: Q,W,X yok
-const READING_SENTENCES=[
-'ANNE.','NENE.','NANE.','TANE.','ANTEN.','NET.','EN NET.','ANTEN EN NET.',
-'TAN.','ATA.','ATA AT.','ANNE NANE.','NENE NANE.','NENE ET TAT.','TAN NANE TAT.',
-'ATA NANE AT.','TAN ATA AT.','TAT TAN TAT.','ANNE NANE AT.','ATA ANTEN AT.',
-'ANNE, NANE AT.','NENE, TANE TANE AT.','ANNEANNE NANE.','ANNEANNE NANE AT.',
-'ANNE NANE TAT.','TANE TANE NANE.'
-];
-const READING_LADDERS=[
-['NET.','EN NET.','ANTEN EN NET.'],
-['TAN.','ATA, TAN.','NANE ATAN, TAN.'],
-['ANNE.','ATAN ANNE.','NANE ATAN ANNEN.'],
-['NENE.','NENE NANE.','NENE NANE TAT.'],
-['AT.','ATA AT.','TAN ATA AT.']
-];
+const READING_SENTENCES=["ANNE AT.","NENE AT.","ATA AT.","ANNE NANE AT.","NENE NANE AT.","ATA TANE TANE AT.","TAN NANE TAT.","ANNE NANE TAT.","NENE ET TAT.","ANNEANNE NANE AT.","ANNEANNE NANE TAT.","TAN ATA AT.","TAN NANE AT.","NENE NANE TAT.","ANNE TANE TANE AT.","ATA ANTEN AT.","ANTEN EN NET.","EN NET ANTEN.","NET ANTEN.","NANE TANE TANE.","ATA AT.","ANNE ELMA AL.","NENE ELMA AL.","ANNE LİMON AL.","NENE KALEM AL.","ATA KİTAP AL.","BABA TOP AT.","BABA TOP AL.","ANNE TOP AT.","KEDİ SÜT İÇ.","KEDİ MAMA YE.","BABA EVE GEL.","ANNE EVE GEL.","DEDE EVE GEL.","KÖPEK SU İÇ.","GÜNEŞ AÇTI.","GÜNEŞ GÜZEL.","DORUK TOP AT.","DORUK TOP AL.","ANNE KİTAP OKU.","BABA KİTAP OKU.","DEDE MASAL OKU.","NENE MASAL OKU.","KEDİ BANA BAK.","BANA BAK.","ELMA AL.","ARMUT AL.","KALEM AL.","KİTAP AL.","TOPU AT.","TOPU AL.","SU İÇ.","SÜT İÇ.","KAPIYI AÇ.","PENCEREYİ AÇ.","OKULA GİT.","EVE GEL.","BAHÇEYE GEL.","ÇİÇEK AL.","BANA GÜL.","İKİ TOP AL.","ÜÇ ELMA AL.","BİR KİTAP AL.","SARI TOPU AL.","MAVİ TOPU AL.","KIRMIZI TOPU AL.","GÜZEL ÇİÇEK.","YEŞİL AĞAÇ.","KÜÇÜK KUZU.","BÜYÜK ARABA.","MİNİK KEDİ.","MİNİK KUŞ.","BEYAZ KEDİ.","SİYAH KÖPEK.","UZUN YOL.","KISA YOL.","TEMİZ EV.","YENİ KİTAP."];
+const READING_LADDERS=[["ANNE.","ANNE NANE.","ANNE NANE AT."],["NENE.","NENE NANE.","NENE NANE AT."],["TAN.","TAN NANE.","TAN NANE TAT."],["ANTEN.","NET ANTEN.","ANTEN EN NET."],["ATA.","ATA AT.","ATA TANE TANE AT."],["ANNEANNE.","ANNEANNE NANE.","ANNEANNE NANE AT."],["BABA.","BABA TOP.","BABA TOP AT."],["KEDİ.","MİNİK KEDİ.","MİNİK KEDİ SÜT İÇ."],["KİTAP.","YENİ KİTAP.","ANNE YENİ KİTAP AL."],["ELMA.","ÜÇ ELMA.","ANNE ÜÇ ELMA AL."],["GÜNEŞ.","GÜZEL GÜNEŞ.","GÜNEŞ ÇOK GÜZEL."],["KUZU.","KÜÇÜK KUZU.","KÜÇÜK KUZU SU İÇ."],["TOP.","MAVİ TOP.","DORUK MAVİ TOPU AL."]];
 const WORDS=["AN","AT","ET","EN","NE","ANA","ATA","ANNE","NENE","NANE","TANE","TENTE","ANTEN","TEN","NET","TAN","ANNEANNE","EL","AL","LALE","İL","İLE","İNEK","İP","LİMON","KALEM","KELİME","MASA","OKUL","SÜT","TOP","ARABA","BABA","DEDE","KEDİ","KAPI","KİTAP","ŞAPKA","ÇANTA","KUZU","BALIK","YAZI","YOL","GÜNEŞ","DORUK","MAVİ","KIRMIZI","ÇİÇEK","ÇORAP","ÖRDEK","ÜZÜM","AĞAÇ","YAĞMUR","YILDIZ","FİL","JİP","EV","ELMA","EKMEK","İKİ","BİR","ÜÇ","DÖRT","BEŞ","ALTI","YEDİ","SEKİZ","DOKUZ","ON","ONİKİ","MUM","MİNE","MİNİK","ÇOCUK","OYUN","OYUNCAK","KARPUZ","ÇİLEK","ARMUT","KİRAZ","ERİK","MUZ","PORTAKAL","PENCERE","MASAL","KİTAPLIK","DEFTER","SİLGİ","KAĞIT","KAŞIK","ÇATAL","TABAK","SU","SOKAK","BAHÇE","PARK","ANNECİĞİM","BEBEK","KUZEN","TEYZE","AMCA","HALA","DAYI","DOST","ARKADAŞ","OKULUM","EVİM","ODAM","AY","GÜN","GECE","SABAH","AKŞAM","KUŞ","KÖPEK","BAL","PEYNİR","YUMURTA","DENİZ","GÖL","DAĞ","ORMAN","ÇAM","GÜL","MOR","SARI","BEYAZ","SİYAH","YEŞİL","PEMBE","TURUNCU","İLK","SON","UZUN","KISA","BÜYÜK","KÜÇÜK","SICAK","SOĞUK","GÜZEL","TATLI","TEMİZ","YENİ","ESKİ","KOŞ","BAK","GEL","GİT","VER","OKU","YAZ","ÇİZ","SAY","SEV","DİNLE","OTUR","KALK"]; // Yalnızca editörce onaylanmış kelimeler; etkin harflerle filtrelenir
 const COLORS={A:'#eb4656',N:'#2675db',E:'#2fa66b',T:'#965ae6'};const color=c=>COLORS[c]||['#f39c43','#20a5ab','#bb5189','#687f3b','#d45e45'][Math.max(0,ALPHABET.indexOf(c))%5];
 const $=s=>document.querySelector(s);
@@ -100,28 +88,36 @@ const pool=()=>WORDS.filter(permitted);
 const save=()=>{localStorage.setItem('anatil-letters',JSON.stringify(enabled));localStorage.setItem('anatil-progress',JSON.stringify(progress));localStorage.setItem('anatil-reveal',JSON.stringify(allowReveal));};
 const setStatus=t=>$('#feedback').textContent=t;
 function speak(word){const s=$('#audioStatus');if(!('speechSynthesis'in window)){s.textContent='Bu tarayıcı seslendirmeyi desteklemiyor. Yetişkin kelimeyi okuyabilir.';return}const v=speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith('tr'));if(!v){s.textContent='Türkçe ses bulunamadı. Türkçe ses paketi yüklenmesi gerekebilir.';return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(word.toLocaleLowerCase('tr-TR'));u.lang='tr-TR';u.voice=v;u.rate=.77;speechSynthesis.speak(u);s.textContent='';}
-// Bir turdaki bütün kelimeler bitmeden aynı kelimeyi tekrar sorma.
-function nextWord(){
- const list=pool(),signature=[...enabled].sort().join('');
- if(!list.length)return '';
- let cycle=load('anatil-word-cycle',{signature:'',remaining:[],recent:[]});
- if(cycle.signature!==signature)cycle={signature,remaining:[],recent:[]};
- cycle.remaining=cycle.remaining.filter(w=>list.includes(w));
- // Yeni bir tur başlatıldığında son 3 kelimeyi mümkün olduğunca sona bırak.
- if(!cycle.remaining.length){
-  const recent=new Set(cycle.recent||[]);
-  const shuffled=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
-  cycle.remaining=[...shuffled(list.filter(w=>!recent.has(w))),...shuffled(list.filter(w=>recent.has(w)))];
- }
- const word=cycle.remaining.shift();
- cycle.recent=[...(cycle.recent||[]),word].slice(-3);
- localStorage.setItem('anatil-word-cycle',JSON.stringify(cycle));
- return word;
+// Öğrenilen seslere göre kalıcı, tekrarsız alıştırma sırası.
+function drawUnique(key,list,signature){
+ if(!list.length)return {value:'',remaining:0,total:0};
+ let state=load(key,{signature:'',remaining:[],finished:[],last:''});
+ if(state.signature!==signature){state={signature,remaining:[],finished:[],last:''};}
+ const items=[...new Set(list)];
+ state.finished=state.finished.filter(w=>items.includes(w));
+ state.remaining=state.remaining.filter(w=>items.includes(w)&&!state.finished.includes(w));
+ const unseen=items.filter(w=>!state.finished.includes(w)&&!state.remaining.includes(w));
+ // Yeni harflerle açılan içerikleri önce çalıştır.
+ const previous=load('gunes-last-enabled',[]);const newLetters=enabled.filter(c=>!previous.includes(c));
+ const priority=unseen.filter(w=>newLetters.some(c=>w.includes(c)));
+ const normal=unseen.filter(w=>!priority.includes(w));
+ const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+ state.remaining=[...shuffle(priority),...state.remaining,...shuffle(normal)];localStorage.setItem('gunes-last-enabled',JSON.stringify(enabled));
+ const value=state.remaining.shift()||'';
+ if(value){state.finished.push(value);state.last=value;}
+ localStorage.setItem(key,JSON.stringify(state));
+ return {value,remaining:state.remaining.length,total:items.length};
 }
-function newQuestion(){target=nextWord();answer=Array(target.length).fill(null);tiles=[...target].map((c,i)=>({c,i,used:false})).sort(()=>Math.random()-.5);attempted=false;checked=false;questionStarted=!!target;setStatus(target?'':'Seçilen seslerle uygun kelime yok. Ebeveyn panelinden başka ses aç.');render();}
+function nextWord(){
+ const signature=[...enabled].sort().join('');
+ const picked=drawUnique('gunes-write-v3',pool(),signature);
+ $('#stats').dataset.remaining=picked.remaining;
+ return picked.value;
+}
+function newQuestion(){target=nextWord();answer=Array(target.length).fill(null);tiles=[...target].map((c,i)=>({c,i,used:false})).sort(()=>Math.random()-.5);attempted=false;checked=false;questionStarted=!!target;setStatus(target?'':'🎉 Bu seslerle bütün kelimeleri tamamladın! Yeni ses ekleyebilir veya ebeveyn panelinden çalışmaları sıfırlayabilirsin.');render();}
 function render(){const area=$('#slots');area.replaceChildren();answer.forEach((id,i)=>{const b=document.createElement('button');b.className='slot';b.dataset.index=i;b.textContent=id===null?'':tiles.find(t=>t.i===id)?.c||'';if(id!==null)b.style.color=color(b.textContent);b.onclick=()=>{if(checked)return;if(answer[i]!==null){const tile=tiles.find(t=>t.i===answer[i]);if(tile)tile.used=false;answer[i]=null;setStatus('');render();}};b.disabled=checked;area.append(b);});
 const tray=$('#tiles');tray.replaceChildren();tiles.forEach(t=>{if(t.used)return;const b=document.createElement('button');b.className='tile';b.textContent=t.c;b.style.background=color(t.c);b.dataset.id=t.i;b.setAttribute('aria-label',t.c+' harfi');b.onpointerdown=e=>{if(checked||e.pointerType==='mouse')return;selectedTile=t.i;drag={x:e.clientX,y:e.clientY};b.setPointerCapture(e.pointerId);};b.onpointerup=e=>{if(checked||!drag)return;const dropped=document.elementFromPoint(e.clientX,e.clientY)?.closest('.slot');if(dropped){put(t.i,Number(dropped.dataset.index))}else if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<25){put(t.i)}drag=null;selectedTile=null;};b.onclick=e=>{if(e.detail&&e.pointerType!=='touch'&&e.pointerType!=='pen')put(t.i)};tray.append(b);});
-$('#stats').textContent='⭐ '+progress.right+'  •  Deneme '+progress.played;$('#listen').disabled=!target;$('#check').disabled=!target||checked;$('#undo').disabled=!target||checked;}
+$('#stats').textContent='⭐ '+progress.right+' • Kalan '+($('#stats').dataset.remaining||0);$('#listen').disabled=!target;$('#check').disabled=!target||checked;$('#undo').disabled=!target||checked;}
 function put(id,position){if(checked)return;let p=position??answer.indexOf(null);if(p<0||p>=answer.length)return;if(answer[p]!==null){const prev=tiles.find(t=>t.i===answer[p]);if(prev)prev.used=false;}answer[p]=id;tiles.find(t=>t.i===id).used=true;setStatus('');render();}
 $('#undo').onclick=()=>{if(checked)return;for(let i=answer.length-1;i>=0;i--)if(answer[i]!==null){tiles.find(t=>t.i===answer[i]).used=false;answer[i]=null;render();break}};
 $('#listen').onclick=()=>speak(target);
@@ -130,10 +126,11 @@ $('#check').onclick=()=>{if(!target)return;if(answer.includes(null)){setStatus('
 $('#next').onclick=()=>{if(target&&!checked){progress.skipped++;save();}newQuestion();};
 $('#parentBtn').onclick=()=>{$('#parents').classList.remove('hidden');$('#game').classList.add('hidden');$('#reading').classList.add('hidden');$('#modes').classList.add('hidden');showParents();};
 $('#close').onclick=()=>{$('#parents').classList.add('hidden');$('#modes').classList.remove('hidden');if($('#modeRead').classList.contains('active')){$('#reading').classList.remove('hidden');nextReading();}else{$('#game').classList.remove('hidden');newQuestion();}};
+$('#resetExercises').onclick=()=>{for(const key of Object.keys(localStorage)){if(key.startsWith('gunes-write-v3')||key.startsWith('gunes-reading-v3'))localStorage.removeItem(key);}showParents();};
 $('#allowReveal').onchange=e=>{allowReveal=e.target.checked;save();showParents()};
 $('#reveal').onclick=()=>setStatus('Cevap: '+target);
 $('#export').onclick=()=>{const blob=new Blob([JSON.stringify({enabled,progress,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='anatil-gelisim.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
-function showParents(){const p=$('#letters');p.replaceChildren();ALPHABET.forEach(c=>{const b=document.createElement('button');b.className='letter'+(enabled.includes(c)?' selected':'');b.style.color=color(c);b.textContent=c+' '+(enabled.includes(c)?'✓':'+');b.onclick=()=>{enabled=enabled.includes(c)?enabled.filter(x=>x!==c):[...enabled,c];save();showParents()};p.append(b)});$('#allowReveal').checked=allowReveal;$('#reveal').classList.toggle('hidden',!allowReveal);$('#progress').textContent='Doğru: '+progress.right+' • Yanlış deneme: '+progress.wrong+' • Atlanan: '+progress.skipped+' • İlk denemede doğru: '+progress.first;}
+function showParents(){const p=$('#letters');p.replaceChildren();ALPHABET.forEach(c=>{const b=document.createElement('button');b.className='letter'+(enabled.includes(c)?' selected':'');b.style.color=color(c);b.textContent=c+' '+(enabled.includes(c)?'✓':'+');b.onclick=()=>{enabled=enabled.includes(c)?enabled.filter(x=>x!==c):[...enabled,c];save();showParents()};p.append(b)});$('#allowReveal').checked=allowReveal;$('#reveal').classList.toggle('hidden',!allowReveal);$('#availableInfo').textContent='Bu harflerle '+pool().length+' kelime, '+READING_SENTENCES.filter(canRead).length+' cümle ve '+READING_LADDERS.filter(lines=>lines.every(canRead)).length+' merdiven mevcut.';$('#progress').textContent='Doğru: '+progress.right+' • Yanlış deneme: '+progress.wrong+' • Atlanan: '+progress.skipped+' • İlk denemede doğru: '+progress.first;}
 
 function canRead(text){return [...text.toLocaleUpperCase('tr-TR')].filter(c=>/[A-ZÇĞİÖŞÜ]/.test(c)).every(c=>enabled.includes(c));}
 function readCandidates(){
@@ -143,22 +140,21 @@ function readCandidates(){
 }
 function nextReading(){
  const list=readCandidates(),sig=[...enabled].sort().join('')+'|'+readMode;
- if(sig!==readSignature){readDeck=[];readSignature=sig;}
- if(!readDeck.length)readDeck=[...list].sort(()=>Math.random()-.5);
- readCurrent=readDeck.shift()||'';
+ const picked=drawUnique('gunes-reading-v3-'+readMode,list,sig);
+ readCurrent=picked.value;
  const card=$('#readingCard');card.replaceChildren();
  if(readCurrent){
   for(const line of readCurrent.split('\\n')){
    const span=document.createElement('span');span.className=readMode==='ladder'?'ladderLine':'';
    span.textContent=line;card.append(span);
   }
- }else card.textContent='Bu seslerle bu modda henüz uygun çalışma yok. Diğer modu seçebilir veya yeni sesler açabilirsin.';
- $('#readCount').textContent=list.length+' çalışma';
+ }else card.textContent=list.length?'🎉 Bu bölümdeki bütün çalışmaları bitirdin! Yeni harf ekleyebilir ya da ebeveyn panelinden tekrar başlatabilirsin.':'Bu harflerle uygun çalışma bulunamadı.';
+ $('#readCount').textContent=picked.remaining+' kaldı / '+picked.total+' çalışma';
  $('#readListen').disabled=!readCurrent;$('#readDone').disabled=!readCurrent;
  $('#readingFeedback').textContent='';
 }
 function selectReadingMode(mode){
- readMode=mode;readDeck=[];readSignature='';
+ readMode=mode;
  for(const [id,m] of [['readShort','word'],['readSentence','sentence'],['readLadder','ladder']])$('#'+id).classList.toggle('primary',mode===m);
  nextReading();
 }
