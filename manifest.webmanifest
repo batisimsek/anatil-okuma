@@ -1,0 +1,19 @@
+{
+  "name": "ANATİL – Güneş Paneli",
+  "short_name": "ANATİL",
+  "description": "Öğrenilen harflerle okuma, yazma, görsel dikte",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff7e7",
+  "theme_color": "#fff7e7",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "./anatil-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
