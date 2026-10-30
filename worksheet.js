@@ -37,22 +37,7 @@ const VISUAL=[
 {icon:'🌞',word:'güneş',hint:'Gökyüzünde ışık ve ısı verir'},
 {icon:'🏠',word:'ev',hint:'Yaşadığımız yer'}
 ];
-const SENTENCES=[
-'Talat ata nal al.','Ali ile Lale el ele.','Nil, elli lila lale al.','Nalan, telli alet al.','Ali, lale al.','Talat, lila atlet al.',
-'Ela, lale al.','Nail, alttan in.','Nil, lale al.','Talat, atlet al.','Anne, lale al.','Lale ile Ali el ele.',
-'Ela, aileni anlat.','Nalan, aileni anlat.','Nail, telli alet al.','Talat, ata nal al.',
-'Ela, nane al.','Ali, nane al.','Nil ile Ela el ele.','Nail, ilet.','Ela, ilanı anlat.','Ali, anla.',
-'Talat, lale al.','Nalan, elli tane lale al.','Nail, atla.','Ali, atla.','Ela, inan.','Nil, anne ile el ele.',
-'Anne, tane tane anlat.','Ali, anneye lale al.','Ela, laleli atlet al.','Nalan, lila lale al.',
-'Lale, annene lale al.','Talat, aileyi anlat.','Ali, aileyi anlat.','Anne, naneli tat al.',
-'Nalan ile Lale el ele.','Ali ile Nil el ele.','Nail, el ele atla.','Anne, alet al.',
-'Nene, lale al.','Ata, el ele atla.','Ali, anten al.','Nalan, anneye lale al.',
-'Anne, elma al.','Ali, kalem al.','Lale, kitap al.','Güneş, top al.','Doruk, top at.',
-'Kedi, mama ye.','Baba, eve gel.','Anne, bana bak.','Dede, masal anlat.','Ela, okula git.',
-'Güneş, güzel bir çiçek al.','Küçük kedi eve gel.','Doruk, mavi topu al.'
-,
-"Ali, alttan in.","Ela, alttan in.","Nil, alttan in.","Talat, alttan in.","Talat, atla.","Nalan, atla.","Nail, atla.","Nine, anlat.","Nil, tane tane anlat.","Lale, tane tane anlat.","Nil, eline lale al.","Ali, eline lale al.","Ela, eline lale al.","Nalan, eline lale al.","Nail, eline tel al.","Nil, eline tel al.","Ali, eline tel al.","Ela, nane tat.","Ali, nane tat.","Nil, nane tat.","Anne, nane tat.","Lale, lila lale al.","Nil, lila lale al.","Ela, lila lale al.","Nalan, lila lale al.","Anneanne, lale al.","Nail ile ali el ele.","Ela ile nalan el ele.","Ali ile lale el ele.","Nil ile lale el ele.","Nalan ile nil el ele.","Anne, nane al.","Nine, nane al.","Nalan, nane al.","Nail, alet al.","Nil, alet al.","Talat, alet al.","Ali, aileni anlat.","Nil, aileni anlat.","Nail, aileni anlat.","Nine, inat et.","Nail, inat et.","Nil, inat et.","Ali, nal al.","Talat, nal al.","Nil, el ele atla.","Güneş, bugün üç kelime oku.","Güneş, bize bir masal anlat.","Doruk, topu potaya at.","Doruk ile güneş oyun oynadı.","Anne, bana bir kitap al.","Renkli kalemleri say.","Masada iki tane elma var.","Bugün hava güneşli.","Kelebek laleye kondu.","Öğretmen, kitabı aç dedi.","Baba, bana su ver.","Kedi, sütünü içti.","Anne, lalenin resmini çiz.","Yeni bir hikâye okudum.","Önce dinle, sonra yaz.","Önce oku, sonra anlat.","Bu sabah erken kalktım.","Kuşlar gökyüzünde uçuyor.","Okulda yeni arkadaş edindim.","Çiçekleri tek tek say.","Küçük tavşan havuç yedi.","Bahçede renkli çiçekler var.","Evde küçük bir kedi var.","Sarı kuş ağaca kondu."
-];
+const SENTENCES=["Talat ata nal al.","Ali ile Lale el ele.","Nil, elli lila lale al.","Nalan, telli alet al.","Ali, lale al.","Talat, lila atlet al.","Ela, lale al.","Nail, alttan in.","Nil, lale al.","Talat, atlet al.","Anne, lale al.","Lale ile Ali el ele.","Ela, aileni anlat.","Nalan, aileni anlat.","Nail, telli alet al.","Talat, ata nal al.","Ela, nane al.","Ali, nane al.","Nil ile Ela el ele.","Nail, ilet.","Ela, ilanı anlat.","Ali, anla.","Talat, lale al.","Nalan, elli tane lale al.","Nail, atla.","Ali, atla.","Ela, inan.","Nil, anne ile el ele.","Anne, tane tane anlat.","Ali, anneye lale al.","Ela, laleli atlet al.","Nalan, lila lale al.","Lale, annene lale al.","Talat, aileyi anlat.","Ali, aileyi anlat.","Anne, naneli tat al.","Nalan ile Lale el ele.","Ali ile Nil el ele.","Nail, el ele atla.","Anne, alet al.","Nene, lale al.","Ata, el ele atla.","Ali, anten al.","Nalan, anneye lale al.","Anne, elma al.","Ali, kalem al.","Lale, kitap al.","Güneş, top al.","Doruk, top at.","Kedi, mama ye.","Baba, eve gel.","Anne, bana bak.","Dede, masal anlat.","Ela, okula git.","Güneş, güzel bir çiçek al.","Küçük kedi eve gel.","Doruk, mavi topu al.","Ali, alttan in.","Ela, alttan in.","Nil, alttan in.","Talat, alttan in.","Talat, atla.","Nalan, atla.","Nail, atla.","Nine, anlat.","Nil, tane tane anlat.","Lale, tane tane anlat.","Nil, eline lale al.","Ali, eline lale al.","Ela, eline lale al.","Nalan, eline lale al.","Nail, eline tel al.","Nil, eline tel al.","Ali, eline tel al.","Ela, nane tat.","Ali, nane tat.","Nil, nane tat.","Anne, nane tat.","Lale, lila lale al.","Nil, lila lale al.","Ela, lila lale al.","Nalan, lila lale al.","Anneanne, lale al.","Nail ile Ali el ele.","Ela ile Nalan el ele.","Ali ile Lale el ele.","Nil ile Lale el ele.","Nalan ile Nil el ele.","Anne, nane al.","Nine, nane al.","Nalan, nane al.","Nail, alet al.","Nil, alet al.","Talat, alet al.","Ali, aileni anlat.","Nil, aileni anlat.","Nail, aileni anlat.","Nine, inat et.","Nail, inat et.","Nil, inat et.","Ali, nal al.","Talat, nal al.","Nil, el ele atla.","Güneş, bugün üç kelime oku.","Güneş, bize bir masal anlat.","Doruk, topu potaya at.","Doruk ile güneş oyun oynadı.","Anne, bana bir kitap al.","Renkli kalemleri say.","Masada iki tane elma var.","Bugün hava Güneşli.","Kelebek laleye kondu.","Öğretmen, kitabı aç dedi.","Baba, bana su ver.","Kedi, sütünü içti.","Anne, lalenin resmini çiz.","Yeni bir hikâye okudum.","Önce dinle, sonra yaz.","Önce oku, sonra anlat.","Bu sabah erken kalktım.","Kuşlar gökyüzünde uçuyor.","Okulda yeni arkadaş edindim.","Çiçekleri tek tek say.","Küçük tavşan havuç yedi.","Bahçede renkli çiçekler var.","Evde küçük bir kedi var.","Sarı kuş ağaca kondu."];
 const GAPS=[
  {
   "pre": "Ali ile Ela el ____.",
@@ -230,7 +215,7 @@ function shuffle(values){const a=[...values];for(let i=a.length-1;i>0;i--){const
 function pool(){
  switch(mode){
  case 'syllable':return [...new Set(SYLLABLES)].filter(allowed);
- case 'word':return [...new Set(WORDS)].filter(allowed);
+ case 'word':return [...new Map(WORDS.map(w=>[normalize(w),w])).values()].filter(allowed);
  case 'visual':return VISUAL.filter(x=>allowed(x.word));
  case 'gap':return GAPS.filter(x=>allowed(x.pre.replace('____','')+x.answer));
  case 'order': case 'copy':return [...new Set(SENTENCES)].filter(allowed);
@@ -270,8 +255,7 @@ function score(correct){
 function listen(str){
  if(!('speechSynthesis'in window)){setFeedback('Bu cihaz sesli okumayı desteklemiyor.');return}
  const ss=window.speechSynthesis,voice=ss.getVoices().find(v=>v.lang.toLowerCase().startsWith('tr'));
- if(!voice){setFeedback('Türkçe ses bulunamadı. Bir yetişkin okuyabilir.');return}
- ss.cancel();const utterance=new SpeechSynthesisUtterance(String(str).toLocaleLowerCase('tr-TR'));utterance.voice=voice;utterance.lang='tr-TR';utterance.rate=.75;ss.speak(utterance);
+ ss.cancel();const utterance=new SpeechSynthesisUtterance(String(str).toLocaleLowerCase('tr-TR'));if(voice)utterance.voice=voice;utterance.lang='tr-TR';utterance.rate=.75;ss.speak(utterance);
 }
 function next(){nextItem();render()}
 function nextButton(){return btn('➡️ Sonraki','primary',next)}
