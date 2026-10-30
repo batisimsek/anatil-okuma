@@ -9,7 +9,7 @@ const SYLLABLES=['an','en','in','na','ne','ni','at','et','it','ta','te','ti','al
 const WORDS=[
 'al','el','il','in','an','en','at','et','it','ne','ile','ele','ala','elli','enli','etli','ille','ilan','lila','lale','ilet','alet','atlet','anlat','telli','tatil','aile','inan',
 'Nail','Naile','Nalan','Nil','Ela','Lale','Ali','Altan','Ata','İnal','Lina','Talat','Atilla',
-'naneli','taneli','laleli','ellili','atletli','inatla','nane','anne','nene','anneanne','anteni','nal','tel','nine','atla','altta','alttan','anla','anlat','inat','ilan','anten','net','tane','tala','tane','ten','tente','alt','tat','tatlı',
+'naneli','taneli','laleli','ellili','atletli','inatla','nane','anne','nene','anneanne','anteni','nal','tel','nine','atla','altta','alttan','anla','anlat','inat','ilan','anten','net','tane','tane','ten','tente','alt','tat','tatlı',
 'Anne','Tuna','Lale','Ali','Atila','Alin','Lina','Elin','Neila','Lita','Latif','Nihat',
 'elma','masa','masal','kalem','okul','araba','balon','kedi','kitap','baba','dede','top','kuzu','mavi','sarı','ev','su','oyun','çiçek','arkadaş','kalemlik','defter','mantar','deniz','güneş','Doruk','Güneş'
 ];
@@ -111,6 +111,7 @@ function stats(){
  const e=$('#wbStat');if(e)e.textContent='⭐ '+(state.stats.done||0)+' tamamlanan • '+pool().length+' çalışma';
  const p=$('#wbParentStats');if(p)p.textContent='Çalışma defteri: '+(state.stats.done||0)+' tamamlanan, '+(state.stats.right||0)+' doğru, '+(state.stats.wrong||0)+' yanlış deneme, '+(state.stats.reads||0)+' tekrar okuma.';
 }
+function markCompleted(message){if(done)return;done=true;state.stats.done++;save();setFeedback(message,true);stats()}
 function score(correct){
  if(done)return;
  if(correct){done=true;state.stats.done++;state.stats.right++;save();setFeedback('🌟 Harika! Başardın!',true)}
@@ -148,7 +149,7 @@ function render(){
    const h=btn(i<heart?'❤️':'♡','wb-heart',()=>{
     if(done||heart!==i)return;
     heart++;state.stats.reads++;save();
-    if(heart===3)score(true);else setFeedback('Güzel! Bir kez daha oku.',true);
+    if(heart===3)markCompleted('🌟 Üç tekrar tamamlandı!');else setFeedback('Güzel! Bir kez daha oku.',true);
     redrawStatus()
    });
    h.disabled=done||heart!==i;h.setAttribute('aria-label',(i+1)+'. tekrar');hearts.append(h)
@@ -156,7 +157,7 @@ function render(){
   append(control,hearts,action(btn('🔊 Dinle','',()=>listen(current)),nextButton()));
  }else if(mode==='word'){
   append(stage,mk('div','wb-big',current));
-  append(control,action(btn('🔊 Dinle','',()=>listen(current)),btn('⭐ Okudum!','primary',()=>{score(true);redrawStatus()}),nextButton()));
+  append(control,action(btn('🔊 Dinle','',()=>listen(current)),btn('⭐ Okudum!','primary',()=>{markCompleted('🌟 Okuma tamamlandı!');redrawStatus()}),nextButton()));
  }else if(mode==='visual'){
   append(stage,mk('div','wb-emoji',current.icon),mk('p','wb-help','Bu nedir?'));
   const input=mk('input','wb-writeinput');input.type='text';input.autocomplete='off';input.autocapitalize='off';input.placeholder='Kelimeyi buraya yaz';input.value=typed;
@@ -200,7 +201,7 @@ function render(){
    const canvas=mk('canvas','wb-canvas');canvas.setAttribute('aria-label','Parmağınla veya kalemle yazı alanı');
    const note=mk('p','wb-footnote','El yazısını bir yetişkin kontrol eder. Cevap otomatik tanınmaz.');
    control.append(canvas,note);
-   append(control,action(btn('🧽 Temizle','',()=>clearCanvas(canvas)),btn('⭐ Yazdım!','primary',()=>{score(true);setFeedback('🌟 Yazdım! Şimdi bir yetişkin yazını kontrol etsin.',true)}),nextButton()));
+   append(control,action(btn('🧽 Temizle','',()=>clearCanvas(canvas)),btn('⭐ Yazdım!','primary',()=>{markCompleted('🌟 Yazdım! Bir yetişkin yazını kontrol etsin.')}),nextButton()));
    requestAnimationFrame(()=>setupCanvas(canvas));
   }
  }
@@ -234,11 +235,13 @@ if(parent){
  const box=mk('div','wb-status');
  append(box,mk('h3',null,'📚 ANATİL çalışma defteri'),mk('p','muted','Fotoğraflardan uyarlanan etkinlikler ve yeni kelime/cümleler.'),
   btn('📖 A N E T İ L seslerini aç','',()=>{
-   const old=enabled(),set=new Set([...old,'A','N','E','T','İ','L']);
-   localStorage.setItem('anatil-letters',JSON.stringify([...set]));
-   const buttons=$('#letters').querySelectorAll('button');
-   for(const b of buttons){const letter=b.textContent.trim()[0];const active=set.has(letter);b.classList.toggle('selected',active);b.textContent=letter+' '+(active?'✓':'+')}
-   const desc=$('#availableInfo');if(desc)desc.textContent='Sesler açıldı. Yeni etkinlikler kullanılabilir. Diğer sesleri de buradan seçebilirsin.';
+   const old=new Set(enabled());
+   for(const letter of ['A','N','E','T','İ','L']){
+    if(old.has(letter))continue;
+    const button=[...document.querySelectorAll('#letters button')].find(b=>b.textContent.trim().startsWith(letter+' '));
+    if(button)button.click();
+   }
+   const desc=$('#availableInfo');if(desc)desc.textContent='A N E T İ L etkinleştirildi. Yeni çalışmalar hazır.';
    stats();
   }));
  const info=mk('p','wb-progress');info.id='wbParentStats';
