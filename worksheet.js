@@ -12,6 +12,8 @@ const WORDS=[
 'naneli','taneli','laleli','ellili','atletli','inatla','nane','anne','nene','anneanne','anteni','nal','tel','nine','atla','altta','alttan','anla','anlat','inat','ilan','anten','net','tane','tane','ten','tente','alt','tat','tatlı',
 'Anne','Tuna','Lale','Ali','Atila','Alin','Lina','Elin','Latif','Nihat',
 'elma','masa','masal','kalem','okul','araba','balon','kedi','kitap','baba','dede','top','kuzu','mavi','sarı','ev','su','oyun','çiçek','arkadaş','kalemlik','defter','mantar','deniz','güneş','Doruk','Güneş'
+,
+"eline","elini","elin","eli","annene","anneanne","ninni","ileten","anlatan","inanan","nalan","atletli","aletle","teli","teline","naneli","taneli","tela","lila","nine","alttan","atla","laleli","nanenin","kalemlik","mandal","gökkuşağı","çocuklar","kutu","evler","güzel","gül","çiçekler","mavi","yeşil","kırmızı","masada","masal","okuma","yazma","koşma","kalemim","kitabım","oyuncaklar","kirpi","tavşan","arslan","kuşlar","kelebek","portakal","armut","havuç","kahvaltı","yumurta","peynir","kardeş","öğretmen","öğrenci","teneffüs","toplar","deniz","yüzme","pota","basketbol","elbise","çorap"
 ];
 const VISUAL=[
 {icon:'✋',word:'el',hint:'Parmaklarımızın olduğu yer'},
@@ -48,14 +50,161 @@ const SENTENCES=[
 'Anne, elma al.','Ali, kalem al.','Lale, kitap al.','Güneş, top al.','Doruk, top at.',
 'Kedi, mama ye.','Baba, eve gel.','Anne, bana bak.','Dede, masal anlat.','Ela, okula git.',
 'Güneş, güzel bir çiçek al.','Küçük kedi eve gel.','Doruk, mavi topu al.'
+,
+"Ali, alttan in.","Ela, alttan in.","Nil, alttan in.","Talat, alttan in.","Talat, atla.","Nalan, atla.","Nail, atla.","Nine, anlat.","Nil, tane tane anlat.","Lale, tane tane anlat.","Nil, eline lale al.","Ali, eline lale al.","Ela, eline lale al.","Nalan, eline lale al.","Nail, eline tel al.","Nil, eline tel al.","Ali, eline tel al.","Ela, nane tat.","Ali, nane tat.","Nil, nane tat.","Anne, nane tat.","Lale, lila lale al.","Nil, lila lale al.","Ela, lila lale al.","Nalan, lila lale al.","Anneanne, lale al.","Nail ile ali el ele.","Ela ile nalan el ele.","Ali ile lale el ele.","Nil ile lale el ele.","Nalan ile nil el ele.","Anne, nane al.","Nine, nane al.","Nalan, nane al.","Nail, alet al.","Nil, alet al.","Talat, alet al.","Ali, aileni anlat.","Nil, aileni anlat.","Nail, aileni anlat.","Nine, inat et.","Nail, inat et.","Nil, inat et.","Ali, nal al.","Talat, nal al.","Nil, el ele atla.","Güneş, bugün üç kelime oku.","Güneş, bize bir masal anlat.","Doruk, topu potaya at.","Doruk ile güneş oyun oynadı.","Anne, bana bir kitap al.","Renkli kalemleri say.","Masada iki tane elma var.","Bugün hava güneşli.","Kelebek laleye kondu.","Öğretmen, kitabı aç dedi.","Baba, bana su ver.","Kedi, sütünü içti.","Anne, lalenin resmini çiz.","Yeni bir hikâye okudum.","Önce dinle, sonra yaz.","Önce oku, sonra anlat.","Bu sabah erken kalktım.","Kuşlar gökyüzünde uçuyor.","Okulda yeni arkadaş edindim.","Çiçekleri tek tek say.","Küçük tavşan havuç yedi.","Bahçede renkli çiçekler var.","Evde küçük bir kedi var.","Sarı kuş ağaca kondu."
 ];
 const GAPS=[
-['Talat ata ____ al.','nal'],['Nil, ____ lale al.','elli'],['Ali, ____ al.','lale'],['Talat, lila ____ al.','atlet'],
-['Nalan, ____ alet al.','telli'],['Ela, ____ anlat.','aileni'],['Nail, ____ in.','alttan'],['Anne, ____ al.','lale'],
-['Nil ile Lale el ____.','ele'],['Talat, ata ____ al.','nal'],['Ali ile Ela el ____.','ele'],['Nil, lila ____ al.','lale'],
-['Nalan, ____ tane lale al.','elli'],['Ali, ____ al.','nane'],['Nail, ____ al.','anten'],['Ela, lila ____ al.','atlet'],
-['Anne, ____ al.','elma'],['Dede, ____ anlat.','masal'],['Güneş, ____ al.','top'],['Ali, ____ al.','kalem']
-].map(([pre,answer])=>({pre,answer}));
+ {
+  "pre": "Ali ile Ela el ____.",
+  "answer": "ele",
+  "options": [
+   "ele",
+   "lale",
+   "nane",
+   "atlet"
+  ]
+ },
+ {
+  "pre": "Talat, ata ____ al.",
+  "answer": "nal",
+  "options": [
+   "nal",
+   "tel",
+   "nane",
+   "lale"
+  ]
+ },
+ {
+  "pre": "Nail, alttan ____.",
+  "answer": "in",
+  "options": [
+   "in",
+   "al",
+   "anlat",
+   "at"
+  ]
+ },
+ {
+  "pre": "Ela, aileni ____.",
+  "answer": "anlat",
+  "options": [
+   "anlat",
+   "in",
+   "at",
+   "al"
+  ]
+ },
+ {
+  "pre": "Anne, tane tane ____.",
+  "answer": "anlat",
+  "options": [
+   "anlat",
+   "nal",
+   "at",
+   "atlet"
+  ]
+ },
+ {
+  "pre": "Nail, eline tel ____.",
+  "answer": "al",
+  "options": [
+   "al",
+   "in",
+   "et",
+   "atla"
+  ]
+ },
+ {
+  "pre": "Nil, lila lale ____.",
+  "answer": "al",
+  "options": [
+   "al",
+   "in",
+   "anlat",
+   "et"
+  ]
+ },
+ {
+  "pre": "Nine, inat ____.",
+  "answer": "et",
+  "options": [
+   "et",
+   "nal",
+   "lale",
+   "anlat"
+  ]
+ },
+ {
+  "pre": "Nalan, telli ____ al.",
+  "answer": "alet",
+  "options": [
+   "alet",
+   "nane",
+   "at",
+   "nal"
+  ]
+ },
+ {
+  "pre": "Ali, el ele ____.",
+  "answer": "atla",
+  "options": [
+   "atla",
+   "nal",
+   "net",
+   "et"
+  ]
+ },
+ {
+  "pre": "Nil ile Lale el ____.",
+  "answer": "ele",
+  "options": [
+   "ele",
+   "atlet",
+   "telli",
+   "nal"
+  ]
+ },
+ {
+  "pre": "Anne, nane ____.",
+  "answer": "tat",
+  "options": [
+   "tat",
+   "tel",
+   "atlet",
+   "nal"
+  ]
+ },
+ {
+  "pre": "Ela, eline lale ____.",
+  "answer": "al",
+  "options": [
+   "al",
+   "in",
+   "anla",
+   "anlat"
+  ]
+ },
+ {
+  "pre": "Talat, alttan ____.",
+  "answer": "in",
+  "options": [
+   "in",
+   "anlat",
+   "nal",
+   "lale"
+  ]
+ },
+ {
+  "pre": "Ali, eline ____ al.",
+  "answer": "lale",
+  "options": [
+   "lale",
+   "ele",
+   "in",
+   "atla"
+  ]
+ }
+];
 const MODE=[
 {id:'syllable',name:'🔤 Hece',title:'Heceleri 3 Kez Oku',help:'Her okumadan sonra bir kalbe dokun.'},
 {id:'word',name:'📖 Kelime',title:'Kelime Okuma',help:'Kelimeyi önce kendin oku. Sonra sesini dinleyebilirsin.'},
@@ -76,7 +225,7 @@ let mode='syllable',current=null,heart=0,done=false,wrong=false,picks=[],selecte
 function save(){try{localStorage.setItem(STORAGE,JSON.stringify(state))}catch{}}
 function enabled(){try{const s=JSON.parse(localStorage.getItem('anatil-letters'));if(Array.isArray(s))return s;return ['A','N','E','T','İ','L']}catch{return ['A','N','E','T','İ','L']}}
 function allowed(str){const set=new Set(enabled());return [...str.toLocaleUpperCase('tr-TR')].filter(c=>ALPHABET.includes(c)).every(c=>set.has(c))}
-function normalize(str){return String(str).trim().replace(/[.!?,]+$/g,'').replace(/\s+/g,' ').toLocaleLowerCase('tr-TR')}
+function normalize(str){return String(str).trim().replace(/[.!?,;:'’]+/g,'').replace(/\s+/g,' ').toLocaleLowerCase('tr-TR')}
 function shuffle(values){const a=[...values];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function pool(){
  switch(mode){
@@ -128,6 +277,7 @@ function next(){nextItem();render()}
 function nextButton(){return btn('➡️ Sonraki','primary',next)}
 function redrawStatus(){const old=lastMessage;render();if(old)setFeedback(old,done)}
 function createOptions(answer){
+ if(current&&current.options)return shuffle(current.options.filter(w=>allowed(w)));
  const candidates=[...new Set(WORDS)].filter(w=>allowed(w)&&normalize(w)!==normalize(answer));
  const different=shuffle(candidates.filter(w=>Math.abs(w.length-answer.length)<=2));
  return shuffle([answer,...different.slice(0,3)]);
@@ -157,7 +307,18 @@ function render(){
   append(control,hearts,action(btn('🔊 Dinle','',()=>listen(current)),nextButton()));
  }else if(mode==='word'){
   append(stage,mk('div','wb-big',current));
-  append(control,action(btn('🔊 Dinle','',()=>listen(current)),btn('⭐ Okudum!','primary',()=>{markCompleted('🌟 Okuma tamamlandı!');redrawStatus()}),nextButton()));
+  const hearts=mk('div','wb-hearts');
+  for(let i=0;i<3;i++){
+   const h=btn(i<heart?'❤️':'♡','wb-heart',()=>{
+    if(done||heart!==i)return;
+    heart++;state.stats.reads++;save();
+    if(heart===3)markCompleted('🌟 Üç okuma tamamlandı!');else setFeedback('Güzel! Bir kez daha oku.',true);
+    redrawStatus();
+   });
+   h.disabled=done||heart!==i;
+   h.setAttribute('aria-label',(i+1)+'. okuma');hearts.append(h);
+  }
+  append(control,hearts,action(btn('🔊 Dinle','',()=>listen(current)),nextButton()));
  }else if(mode==='visual'){
   append(stage,mk('div','wb-emoji',current.icon),mk('p','wb-help','Bu nedir?'));
   const input=mk('input','wb-writeinput');input.type='text';input.autocomplete='off';input.autocapitalize='off';input.placeholder='Kelimeyi buraya yaz';input.value=typed;
