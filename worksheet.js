@@ -10,7 +10,7 @@ const WORDS=[
 'al','el','il','in','an','en','at','et','it','ne','ile','ele','ala','elli','enli','etli','ille','ilan','lila','lale','ilet','alet','atlet','anlat','telli','tatil','aile','inan',
 'Nail','Naile','Nalan','Nil','Ela','Lale','Ali','Altan','Ata','İnal','Lina','Talat','Atilla',
 'naneli','taneli','laleli','ellili','atletli','inatla','nane','anne','nene','anneanne','anteni','nal','tel','nine','atla','altta','alttan','anla','anlat','inat','ilan','anten','net','tane','tane','ten','tente','alt','tat','tatlı',
-'Anne','Tuna','Lale','Ali','Atila','Alin','Lina','Elin','Neila','Lita','Latif','Nihat',
+'Anne','Tuna','Lale','Ali','Atila','Alin','Lina','Elin','Latif','Nihat',
 'elma','masa','masal','kalem','okul','araba','balon','kedi','kitap','baba','dede','top','kuzu','mavi','sarı','ev','su','oyun','çiçek','arkadaş','kalemlik','defter','mantar','deniz','güneş','Doruk','Güneş'
 ];
 const VISUAL=[
